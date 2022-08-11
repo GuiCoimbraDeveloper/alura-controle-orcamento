@@ -15,6 +15,9 @@ namespace OrcamentoFamiliar.API.Persistence.Mapping
             builder.Property(x => x.Valor)
                 .HasColumnType("decimal(18,4)");
 
+            builder.Property(x => x.Categoria)
+                .HasMaxLength(30);
+
         }
     }
 }

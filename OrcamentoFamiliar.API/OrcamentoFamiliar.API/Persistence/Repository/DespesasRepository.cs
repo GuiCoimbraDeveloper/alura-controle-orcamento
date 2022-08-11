@@ -30,14 +30,19 @@ namespace OrcamentoFamiliar.API.Persistence.Repository
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task<List<Despesas>> List()
+        public async Task<List<Despesas>> List(string? descricao)
         {
             return await _dataContext.Despesas.ToListAsync();
         }
 
-        public List<Despesas> List(Expression<Func<Despesas, bool>> expression)
+        public async Task<List<Despesas>> List(Expression<Func<Despesas, bool>> expression)
         {
-            return _dataContext.Despesas.Where(expression).ToList();
+            return await _dataContext.Despesas.Where(expression).ToListAsync();
+        }
+
+        public async Task<List<Despesas>> ListMes(int ano, int mes)
+        {
+            return await _dataContext.Despesas.Where(x => x.Data.Year == ano && x.Data.Month == mes).ToListAsync();
         }
 
         public async Task Update(Despesas entity)

@@ -32,9 +32,9 @@ namespace OrcamentoFamiliar.API.Controllers
 
         // GET: api/Receitas
         [HttpGet]
-        public async Task<IActionResult> GetReceitas()
+        public async Task<IActionResult> GetReceitas([FromQuery] string? descricao)
         {
-            var result = _mapper.Map<IList<ReceitaResponse>>(await _receitaService.GetList());
+            var result = _mapper.Map<IList<ReceitaResponse>>(await _receitaService.GetList(descricao));
 
             return Ok(result);
         }
@@ -49,6 +49,15 @@ namespace OrcamentoFamiliar.API.Controllers
             {
                 return NotFound("Receita não encontrada");
             }
+
+            return Ok(result);
+        }
+
+        // GET: api/Receitas/2022/1
+        [HttpGet("{ano}/{mes}")]
+        public async Task<IActionResult> GetReceitasMes(int ano, int mes)
+        {
+            var result = _mapper.Map<IList<ReceitaResponse>>(await _receitaService.GetListMes(ano, mes));
 
             return Ok(result);
         }

@@ -17,7 +17,7 @@ namespace OrcamentoFamiliar.API.Services
         {
             try
             {
-                if (VerifyReceitaDescription(receita.Descricao, receita.Data))
+                if (await VerifyReceitaDescription(receita.Descricao, receita.Data))
                     return "Receita já cadastrada";
 
                 await _receitaRepository.Insert(receita);
@@ -63,11 +63,29 @@ namespace OrcamentoFamiliar.API.Services
             }
         }
 
-        public async Task<IOrderedEnumerable<Receitas>> GetList()
+        public async Task<IOrderedEnumerable<Receitas>> GetList(string? descricao)
         {
             try
             {
-                var result = await _receitaRepository.List();
+                if (string.IsNullOrEmpty(descricao))
+                    descricao = "";
+
+                var result = await _receitaRepository.List(descricao);
+                var aux = result.OrderByDescending(x => x.Data);
+
+                return aux;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<IOrderedEnumerable<Receitas>> GetListMes(int ano, int mes)
+        {
+            try
+            {
+                var result = await _receitaRepository.ListMes(ano, mes);
                 var aux = result.OrderByDescending(x => x.Data);
 
                 return aux;
@@ -82,7 +100,7 @@ namespace OrcamentoFamiliar.API.Services
         {
             try
             {
-                if (VerifyReceitaDescription(receita.Descricao, receita.Data))
+                if (await VerifyReceitaDescription(receita.Descricao, receita.Data))
                     return "Jà existe uma receita com essa descrição! Operação Cancelada";
 
                 await _receitaRepository.Update(receita);
@@ -96,9 +114,9 @@ namespace OrcamentoFamiliar.API.Services
         }
 
         #region Private Methods
-        private bool VerifyReceitaDescription(string descricao, DateTime date)
+        private async Task<bool> VerifyReceitaDescription(string descricao, DateTime date)
         {
-            var verifyreceita = _receitaRepository.List(x => x.Descricao == descricao && x.Data.Month == date.Month && x.Data.Year == date.Year);
+            var verifyreceita = await _receitaRepository.List(x => x.Descricao == descricao && x.Data.Month == date.Month && x.Data.Year == date.Year);
             return verifyreceita.Any();
         }
         #endregion

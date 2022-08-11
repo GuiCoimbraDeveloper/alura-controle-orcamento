@@ -5,7 +5,9 @@ namespace OrcamentoFamiliar.API.Services.Interfaces
     public interface IDespesaService
     {
         Task<string> Create(Despesas income);
-        Task<IOrderedEnumerable<Despesas>> GetList();
+        Task<IOrderedEnumerable<Despesas>> GetList(string? descricao);
+        Task<IOrderedEnumerable<Despesas>> GetListMes(int ano, int mes);
+
         Task<Despesas> GetById(int id);
         Task<string> Update(Despesas income);
         Task<string> Delete(int id);

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OrcamentoFamiliar.API.Entity;
+using OrcamentoFamiliar.API.Entity.Enum;
 using OrcamentoFamiliar.API.Entity.Request;
 using OrcamentoFamiliar.API.Entity.Response;
 using OrcamentoFamiliar.API.Persistence;
@@ -32,9 +33,9 @@ namespace OrcamentoFamiliar.API.Controllers
 
         // GET: api/Despesas
         [HttpGet]
-        public async Task<IActionResult> GetDespesas()
+        public async Task<IActionResult> GetDespesas([FromQuery] string? descricao)
         {
-            var result = _mapper.Map<IList<DespesaResponse>>(await _despesaService.GetList());
+            var result = _mapper.Map<IList<DespesaResponse>>(await _despesaService.GetList(descricao));
 
             return Ok(result);
         }
@@ -49,6 +50,15 @@ namespace OrcamentoFamiliar.API.Controllers
                 return NotFound("Despesa não encontrada");
 
             return Ok(despesas);
+        }
+
+        // GET: api/Despesas/2022/1
+        [HttpGet("{ano}/{mes}")]
+        public async Task<IActionResult> GetDespesasMes(int ano, int mes)
+        {
+            var result = _mapper.Map<IList<DespesaResponse>>(await _despesaService.GetListMes(ano, mes));
+
+            return Ok(result);
         }
 
         // PUT: api/Despesas/5
@@ -68,6 +78,8 @@ namespace OrcamentoFamiliar.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PostDespesas([FromBody] DespesaRequest despesas)
         {
+            if (despesas.Categoria == null)
+                despesas.Categoria = EnumCategoria.Outras;
 
             var expense = _mapper.Map<Despesas>(despesas);
 

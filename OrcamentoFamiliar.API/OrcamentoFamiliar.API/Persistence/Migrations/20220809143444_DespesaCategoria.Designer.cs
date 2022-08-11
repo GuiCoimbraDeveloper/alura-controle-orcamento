@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrcamentoFamiliar.API.Persistence;
 
@@ -11,9 +12,10 @@ using OrcamentoFamiliar.API.Persistence;
 namespace OrcamentoFamiliar.API.Persistence.Migrations
 {
     [DbContext(typeof(OrcamentoFamiliarDbContext))]
-    partial class OrcamentoFamiliarDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220809143444_DespesaCategoria")]
+    partial class DespesaCategoria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,9 +38,9 @@ namespace OrcamentoFamiliar.API.Persistence.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int>("Categoria")
+                    b.Property<string>("Categoria")
                         .HasMaxLength(30)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()

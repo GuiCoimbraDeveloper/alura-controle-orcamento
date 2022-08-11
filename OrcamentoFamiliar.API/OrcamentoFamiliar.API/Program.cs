@@ -22,6 +22,7 @@ builder.Services.AddTransient<IReceitasRepository, ReceitasRepository>();
 
 builder.Services.AddTransient<IReceitaService, ReceitaService>();
 builder.Services.AddTransient<IDespesaService, DespesaService>();
+builder.Services.AddTransient<IResumoService, ResumoService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

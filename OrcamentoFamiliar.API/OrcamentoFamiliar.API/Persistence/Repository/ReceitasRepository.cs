@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrcamentoFamiliar.API.Entity;
 using OrcamentoFamiliar.API.Persistence.Repository.Interfaces;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace OrcamentoFamiliar.API.Persistence.Repository
@@ -30,14 +31,19 @@ namespace OrcamentoFamiliar.API.Persistence.Repository
             await _dataContext.SaveChangesAsync();
         }
 
-        public async Task<List<Receitas>> List()
+        public async Task<List<Receitas>> List(string descricao)
         {
-            return await _dataContext.Receitas.ToListAsync();
+            return await _dataContext.Receitas.Where(x => x.Descricao.Contains(descricao)).ToListAsync();
         }
 
-        public List<Receitas> List(Expression<Func<Receitas, bool>> expression)
+        public async Task<List<Receitas>> ListMes(int ano, int mes)
         {
-            return _dataContext.Set<Receitas>().Where(expression).ToList();
+            return await _dataContext.Receitas.Where(x => x.Data.Year == ano && x.Data.Month == mes).ToListAsync();
+        }
+
+        public async Task<List<Receitas>> List(Expression<Func<Receitas, bool>> expression)
+        {
+            return await _dataContext.Set<Receitas>().Where(expression).ToListAsync();
         }
 
         public async Task Update(Receitas entity)

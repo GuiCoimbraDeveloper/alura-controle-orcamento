@@ -19,7 +19,7 @@ namespace OrcamentoFamiliar.API.Services
         {
             try
             {
-                if (VerifydespesaDescription(despesa.Descricao, despesa.Data))
+                if (await VerifydespesaDescription(despesa.Descricao, despesa.Data))
                     return "Despesa já cadastrada";
 
                 await _despesaRepository.Insert(despesa);
@@ -65,11 +65,29 @@ namespace OrcamentoFamiliar.API.Services
             }
         }
 
-        public async Task<IOrderedEnumerable<Despesas>> GetList()
+        public async Task<IOrderedEnumerable<Despesas>> GetList(string? descricao)
         {
             try
             {
-                var result = await _despesaRepository.List();
+                if (string.IsNullOrEmpty(descricao))
+                    descricao = "";
+
+                var result = await _despesaRepository.List(descricao);
+                var aux = result.OrderByDescending(x => x.Data);
+
+                return aux;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<IOrderedEnumerable<Despesas>> GetListMes(int ano, int mes)
+        {
+            try
+            {
+                var result = await _despesaRepository.ListMes(ano, mes);
                 var aux = result.OrderByDescending(x => x.Data);
 
                 return aux;
@@ -84,7 +102,7 @@ namespace OrcamentoFamiliar.API.Services
         {
             try
             {
-                if (VerifydespesaDescription(despesa.Descricao, despesa.Data))
+                if (await VerifydespesaDescription(despesa.Descricao, despesa.Data))
                     return "Jà existe uma Despesa com essa descrição! Operação Cancelada";
 
                 await _despesaRepository.Update(despesa);
@@ -98,9 +116,9 @@ namespace OrcamentoFamiliar.API.Services
         }
 
         #region Private Methods
-        private bool VerifydespesaDescription(string descricao, DateTime date)
+        private async Task<bool> VerifydespesaDescription(string descricao, DateTime date)
         {
-            var verifydespesa = _despesaRepository.List(x => x.Descricao == descricao && x.Data.Month == date.Month && x.Data.Year == date.Year);
+            var verifydespesa = await _despesaRepository.List(x => x.Descricao == descricao && x.Data.Month == date.Month && x.Data.Year == date.Year);
             if (verifydespesa.Any())
                 return true;
 
