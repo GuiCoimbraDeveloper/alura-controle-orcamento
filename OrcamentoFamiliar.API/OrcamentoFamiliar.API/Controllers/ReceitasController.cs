@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OrcamentoFamiliar.API.Entity;
-using OrcamentoFamiliar.API.Entity.Request;
-using OrcamentoFamiliar.API.Entity.Response;
-using OrcamentoFamiliar.API.Persistence;
-using OrcamentoFamiliar.API.Services.Interfaces;
+using OrcamentoFamiliar.Application.Services.Interfaces;
+using OrcamentoFamiliar.Domain.Entity.Request;
 
 namespace OrcamentoFamiliar.API.Controllers
 {
@@ -23,12 +13,10 @@ namespace OrcamentoFamiliar.API.Controllers
     {
         #region Construtor
         private readonly IReceitaService _receitaService;
-        private readonly IMapper _mapper;
 
-        public ReceitasController(IReceitaService receitaServices, IMapper mapper)
+        public ReceitasController(IReceitaService receitaServices)
         {
             _receitaService = receitaServices;
-            _mapper = mapper;
         }
         #endregion
 
@@ -36,8 +24,7 @@ namespace OrcamentoFamiliar.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetReceitas([FromQuery] string? descricao)
         {
-            var result = _mapper.Map<IList<ReceitaResponse>>(await _receitaService.GetList(descricao));
-
+            var result = await _receitaService.GetList(descricao);
             return Ok(result);
         }
 
@@ -45,12 +32,10 @@ namespace OrcamentoFamiliar.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetReceitas(int id)
         {
-            var result = _mapper.Map<ReceitaResponse>(await _receitaService.GetById(id));
+            var result = await _receitaService.GetById(id);
 
             if (result == null)
-            {
                 return NotFound("Receita não encontrada");
-            }
 
             return Ok(result);
         }
@@ -59,7 +44,7 @@ namespace OrcamentoFamiliar.API.Controllers
         [HttpGet("{ano}/{mes}")]
         public async Task<IActionResult> GetReceitasMes(int ano, int mes)
         {
-            var result = _mapper.Map<IList<ReceitaResponse>>(await _receitaService.GetListMes(ano, mes));
+            var result = await _receitaService.GetListMes(ano, mes);
 
             return Ok(result);
         }
@@ -69,11 +54,7 @@ namespace OrcamentoFamiliar.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutReceitas(int id, [FromBody] ReceitaRequest receitas)
         {
-            var income = _mapper.Map<Receitas>(receitas);
-
-            income.Id = id;
-
-            var result = await _receitaService.Update(income);
+            var result = await _receitaService.Update(receitas, id);
 
             return NoContent();
         }
@@ -83,9 +64,7 @@ namespace OrcamentoFamiliar.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PostReceitas([FromBody] ReceitaRequest receitas)
         {
-            var income = _mapper.Map<Receitas>(receitas);
-
-            var result = await _receitaService.Create(income);
+            var result = await _receitaService.Create(receitas);
 
             return CreatedAtAction("GetReceitas", new { id = result }, receitas);
         }
@@ -94,8 +73,7 @@ namespace OrcamentoFamiliar.API.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteReceitas(int id)
         {
-            var result = await _receitaService.Delete(id);
-
+            await _receitaService.Delete(id);
             return NoContent();
         }
 

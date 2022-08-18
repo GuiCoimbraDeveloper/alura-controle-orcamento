@@ -2,12 +2,12 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using OrcamentoFamiliar.API.AutoMapper;
-using OrcamentoFamiliar.API.Persistence;
-using OrcamentoFamiliar.API.Persistence.Repository;
-using OrcamentoFamiliar.API.Persistence.Repository.Interfaces;
-using OrcamentoFamiliar.API.Services;
-using OrcamentoFamiliar.API.Services.Interfaces;
+using OrcamentoFamiliar.Application.Services;
+using OrcamentoFamiliar.Application.Services.Interfaces;
+using OrcamentoFamiliar.Domain.AutoMapper;
+using OrcamentoFamiliar.Infra.Persistence;
+using OrcamentoFamiliar.Infra.Persistence.Repository;
+using OrcamentoFamiliar.Infra.Persistence.Repository.Interfaces;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);

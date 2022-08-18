@@ -1,7 +1,4 @@
-﻿using OrcamentoFamiliar.API.Persistence.Repository.Interfaces;
-using OrcamentoFamiliar.API.Services;
-
-namespace OrcamentoFamiliar.API.Teste
+﻿namespace OrcamentoFamiliar.API.Teste
 {
     public class DespesasTest
     {

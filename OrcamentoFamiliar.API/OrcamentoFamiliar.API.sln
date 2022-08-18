@@ -5,7 +5,13 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrcamentoFamiliar.API", "OrcamentoFamiliar.API\OrcamentoFamiliar.API.csproj", "{99410130-0923-4DF0-A0EA-EF8C27D08552}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcamentoFamiliar.API.Teste", "OrcamentoFamiliar.API.Teste\OrcamentoFamiliar.API.Teste.csproj", "{FEC17CB5-D48E-4D6F-8549-04AEE04DE50E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrcamentoFamiliar.API.Teste", "OrcamentoFamiliar.API.Teste\OrcamentoFamiliar.API.Teste.csproj", "{FEC17CB5-D48E-4D6F-8549-04AEE04DE50E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcamentoFamiliar.Application", "OrcamentoFamiliar.Application\OrcamentoFamiliar.Application.csproj", "{A5690ECC-ECD5-487A-A15B-EE3E137F0DFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcamentoFamiliar.Infra", "OrcamentoFamiliar.Infra\OrcamentoFamiliar.Infra.csproj", "{32192064-2499-4598-B81C-4927024E8CF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrcamentoFamiliar.Domain", "OrcamentoFamiliar.Domain\OrcamentoFamiliar.Domain.csproj", "{AF7BE65F-657B-4A5A-9F46-348224066463}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +27,18 @@ Global
 		{FEC17CB5-D48E-4D6F-8549-04AEE04DE50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEC17CB5-D48E-4D6F-8549-04AEE04DE50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEC17CB5-D48E-4D6F-8549-04AEE04DE50E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5690ECC-ECD5-487A-A15B-EE3E137F0DFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5690ECC-ECD5-487A-A15B-EE3E137F0DFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5690ECC-ECD5-487A-A15B-EE3E137F0DFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5690ECC-ECD5-487A-A15B-EE3E137F0DFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32192064-2499-4598-B81C-4927024E8CF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32192064-2499-4598-B81C-4927024E8CF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32192064-2499-4598-B81C-4927024E8CF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32192064-2499-4598-B81C-4927024E8CF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF7BE65F-657B-4A5A-9F46-348224066463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF7BE65F-657B-4A5A-9F46-348224066463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF7BE65F-657B-4A5A-9F46-348224066463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF7BE65F-657B-4A5A-9F46-348224066463}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

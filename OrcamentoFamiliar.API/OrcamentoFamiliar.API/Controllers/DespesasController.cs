@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using OrcamentoFamiliar.API.Entity;
-using OrcamentoFamiliar.API.Entity.Enum;
-using OrcamentoFamiliar.API.Entity.Request;
-using OrcamentoFamiliar.API.Entity.Response;
-using OrcamentoFamiliar.API.Persistence;
-using OrcamentoFamiliar.API.Services.Interfaces;
+using OrcamentoFamiliar.Application.Services.Interfaces;
+using OrcamentoFamiliar.Domain.Entity.Enum;
+using OrcamentoFamiliar.Domain.Entity.Request;
 
 namespace OrcamentoFamiliar.API.Controllers
 {
@@ -75,9 +65,6 @@ namespace OrcamentoFamiliar.API.Controllers
         [HttpPost]
         public async Task<IActionResult> PostDespesas([FromBody] DespesaRequest despesas)
         {
-            if (despesas.Categoria == null)
-                despesas.Categoria = EnumCategoria.Outras;
-
             var result = await _despesaService.Create(despesas);
 
             return CreatedAtAction("GetDespesas", new { id = result }, despesas);

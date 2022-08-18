@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OrcamentoFamiliar.API.Entity;
-using OrcamentoFamiliar.API.Persistence.Repository.Interfaces;
-using OrcamentoFamiliar.API.Services;
+using OrcamentoFamiliar.Application.Services;
+using OrcamentoFamiliar.Domain.Entity;
+using OrcamentoFamiliar.Infra.Persistence.Repository.Interfaces;
 
 namespace OrcamentoFamiliar.API.Controllers
 {

@@ -1,7 +1,8 @@
 ﻿using Bogus;
 using Bogus.DataSets;
-using OrcamentoFamiliar.API.Entity.Enum;
-using OrcamentoFamiliar.API.Entity.Request;
+using OrcamentoFamiliar.Domain.Entity.Enum;
+using OrcamentoFamiliar.Domain.Entity;
+using OrcamentoFamiliar.Domain.Entity.Request;
 
 namespace OrcamentoFamiliar.API.Teste
 {
@@ -19,7 +20,7 @@ namespace OrcamentoFamiliar.API.Teste
                 Valor = new Randomizer().Decimal(1, 1000),
                 Data = new Date().Between(begin, end),
                 Categoria = EnumCategoria.Educacao,
-                
+
             };
         }
 
