@@ -14,8 +14,8 @@ namespace OrcamentoFamiliar.API.Persistence.Mapping
             .ValueGeneratedOnAdd()
             .UseIdentityColumn();
 
-            builder.Property(x => x.CreatedAt).HasDefaultValueSql("GETUTCDATE()");
-            builder.Property(x => x.AlteretedAt).HasDefaultValueSql("GETUTCDATE()");
+            builder.Property(x => x.CreatedAt).HasDefaultValueSql("GETDATE()");
+            builder.Property(x => x.AlteretedAt).HasDefaultValueSql("GETDATE()");
         }
     }
 }

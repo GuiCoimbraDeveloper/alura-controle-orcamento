@@ -14,21 +14,23 @@ namespace OrcamentoFamiliar.API.Persistence.Repository
             _dataContext = dataContext;
         }
 
-        public async Task Delete(Receitas entity)
+        public async Task<Receitas> Delete(Receitas entity)
         {
             _dataContext.Receitas.Remove(entity);
             await _dataContext.SaveChangesAsync();
+            return entity;
         }
 
-        public async Task<Receitas> Get(int id)
+        public async Task<Receitas?> Get(int id)
         {
             return await _dataContext.Receitas.FindAsync(id);
         }
 
-        public async Task Insert(Receitas entity)
+        public async Task<Receitas> Insert(Receitas entity)
         {
             _dataContext.Receitas.Add(entity);
             await _dataContext.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<List<Receitas>> List(string descricao)
@@ -46,10 +48,11 @@ namespace OrcamentoFamiliar.API.Persistence.Repository
             return await _dataContext.Set<Receitas>().Where(expression).ToListAsync();
         }
 
-        public async Task Update(Receitas entity)
+        public async Task<Receitas> Update(Receitas entity)
         {
             _dataContext.Entry(entity).State = EntityState.Modified;
             await _dataContext.SaveChangesAsync();
+            return entity;
         }
     }
 }

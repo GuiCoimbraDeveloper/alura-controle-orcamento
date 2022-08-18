@@ -1,4 +1,8 @@
-﻿using OrcamentoFamiliar.API.Entity;
+﻿using AutoMapper;
+using OrcamentoFamiliar.API.Entity;
+using OrcamentoFamiliar.API.Entity.Request;
+using OrcamentoFamiliar.API.Entity.Response;
+using OrcamentoFamiliar.API.Handler;
 using OrcamentoFamiliar.API.Persistence.Repository.Interfaces;
 using OrcamentoFamiliar.API.Services.Interfaces;
 
@@ -8,25 +12,33 @@ namespace OrcamentoFamiliar.API.Services
     {
         #region Construtor
         private readonly IDespesasRepository _despesaRepository;
-
-        public DespesaService(IDespesasRepository despesaRepository)
+        private readonly IMapper _mapper;
+        public DespesaService(IDespesasRepository despesaRepository, IMapper mapper)
         {
             _despesaRepository = despesaRepository;
+            _mapper = mapper;
         }
         #endregion
 
-        public async Task<string> Create(Despesas despesa)
+        public async Task<DespesaResponse> Create(DespesaRequest despesa)
         {
             try
             {
-                if (await VerifydespesaDescription(despesa.Descricao, despesa.Data))
-                    return "Despesa já cadastrada";
 
-                await _despesaRepository.Insert(despesa);
+                var entityDesc = await _despesaRepository.List(despesa.Descricao);
+                if (entityDesc != default)
+                {
+                    var entityMes = await _despesaRepository.ListMes(despesa.Data.Year, despesa.Data.Month);
+                    if (entityMes != default)
+                        throw new DomainException("Não é possível existir duas despesas iguais no mesmo mês.");
+                }
 
-                var result = _despesaRepository.Get(despesa.Id);
+                var aux = _mapper.Map<Despesas>(despesa);
+                aux.Validate();
 
-                return result.Id.ToString();
+                var despesaCreated = await _despesaRepository.Insert(aux);
+
+                return _mapper.Map<DespesaResponse>(despesaCreated);
             }
             catch (Exception ex)
             {
@@ -34,96 +46,79 @@ namespace OrcamentoFamiliar.API.Services
             }
         }
 
-        public async Task<string> Delete(int id)
+        public async Task Delete(int id)
         {
             try
             {
                 var despesa = await _despesaRepository.Get(id);
-                if (despesa == null)
-                    return "Despesa não existe";
+                if (despesa is null)
+                    throw new ServiceException("Nenhuma despesa encontrada para remoção");
 
                 await _despesaRepository.Delete(despesa);
-
-                return "Despesa excluída com sucesso!";
             }
             catch (Exception)
             {
-                return "Erro na exclusão da Despesa!";
+                throw new Exception("Erro na exclusão da Despesa!");
             }
         }
 
-        public async Task<Despesas> GetById(int id)
+        public async Task<DespesaResponse> GetById(int id)
         {
-            try
-            {
-                var result = await _despesaRepository.Get(id);
-                return result;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
+            var result = await _despesaRepository.Get(id);
+            if (result is null)
+                throw new ServiceException("Nenhuma despesa encontrada.");
+
+            return _mapper.Map<DespesaResponse>(result);
         }
 
-        public async Task<IOrderedEnumerable<Despesas>> GetList(string? descricao)
+        public async Task<List<DespesaResponse>> GetList(string? descricao)
+        {
+
+            if (string.IsNullOrEmpty(descricao))
+                descricao = "";
+
+            var result = await _despesaRepository.List(descricao);
+            var aux = result.OrderByDescending(x => x.Data).ToList();
+
+            return _mapper.Map<List<DespesaResponse>>(aux);
+        }
+
+        public async Task<List<DespesaResponse>> GetListMes(int ano, int mes)
+        {
+            var result = await _despesaRepository.ListMes(ano, mes);
+            var aux = result.OrderByDescending(x => x.Data).ToList();
+
+            return _mapper.Map<List<DespesaResponse>>(aux);
+        }
+
+        public async Task<DespesaResponse> Update(DespesaRequest despesa, int id)
         {
             try
             {
-                if (string.IsNullOrEmpty(descricao))
-                    descricao = "";
+                var oldDespesa = await _despesaRepository.Get(id);
+                if (oldDespesa == null)
+                    throw new ServiceException("Despesa não encontrada!");
 
-                var result = await _despesaRepository.List(descricao);
-                var aux = result.OrderByDescending(x => x.Data);
+                var entityDesc = await _despesaRepository.List(despesa.Descricao);
+                if (entityDesc != default)
+                {
+                    var entityMes = await _despesaRepository.ListMes(despesa.Data.Year, despesa.Data.Month);
+                    if (entityMes != default)
+                        throw new DomainException("Não é possível existir duas despesas iguais no mesmo mês.");
+                }
 
-                return aux;
+                var aux = _mapper.Map<Despesas>(despesa);
+                aux.Id = id;
+                aux.Validate();
+
+                var a = await _despesaRepository.Update(aux);
+                return _mapper.Map<DespesaResponse>(a);
             }
             catch (Exception ex)
             {
-                return null;
+                throw new Exception($"Erro na atualização da Despesa: {ex.Message}");
             }
         }
 
-        public async Task<IOrderedEnumerable<Despesas>> GetListMes(int ano, int mes)
-        {
-            try
-            {
-                var result = await _despesaRepository.ListMes(ano, mes);
-                var aux = result.OrderByDescending(x => x.Data);
-
-                return aux;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
-        public async Task<string> Update(Despesas despesa)
-        {
-            try
-            {
-                if (await VerifydespesaDescription(despesa.Descricao, despesa.Data))
-                    return "Jà existe uma Despesa com essa descrição! Operação Cancelada";
-
-                await _despesaRepository.Update(despesa);
-
-                return "ok";
-            }
-            catch (Exception ex)
-            {
-                return $"Erro na atualização da Despesa: {ex.Message}";
-            }
-        }
-
-        #region Private Methods
-        private async Task<bool> VerifydespesaDescription(string descricao, DateTime date)
-        {
-            var verifydespesa = await _despesaRepository.List(x => x.Descricao == descricao && x.Data.Month == date.Month && x.Data.Year == date.Year);
-            if (verifydespesa.Any())
-                return true;
-
-            return false;
-        }
-        #endregion
     }
 }

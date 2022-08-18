@@ -18,6 +18,7 @@ namespace OrcamentoFamiliar.API.Persistence
 
         public DbSet<Receitas> Receitas { get; set; }
         public DbSet<Despesas> Despesas { get; set; }
+        public DbSet<Usuario> User { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -25,6 +26,7 @@ namespace OrcamentoFamiliar.API.Persistence
 
             builder.ApplyConfiguration(new ReceitasMapping());
             builder.ApplyConfiguration(new DespesasMapping());
+            builder.ApplyConfiguration(new UsuarioMapping());
         }
     }
 }

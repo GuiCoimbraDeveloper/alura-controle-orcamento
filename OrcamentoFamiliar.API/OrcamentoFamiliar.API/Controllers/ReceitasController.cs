@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace OrcamentoFamiliar.API.Controllers
 {
     //[Route("api/[controller]")]
     [Route("api/receitas")]
+    [Authorize]
     [ApiController]
     public class ReceitasController : ControllerBase
     {

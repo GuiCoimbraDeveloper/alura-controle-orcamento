@@ -13,10 +13,11 @@ namespace OrcamentoFamiliar.API.Persistence.Repository
             _dataContext = dataContext;
         }
 
-        public async Task Delete(Despesas entity)
+        public async Task<Despesas> Delete(Despesas entity)
         {
             _dataContext.Despesas.Remove(entity);
             await _dataContext.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<Despesas?> Get(int id)
@@ -24,10 +25,11 @@ namespace OrcamentoFamiliar.API.Persistence.Repository
             return await _dataContext.Despesas.FindAsync(id);
         }
 
-        public async Task Insert(Despesas entity)
+        public async Task<Despesas> Insert(Despesas entity)
         {
             _dataContext.Despesas.Add(entity);
             await _dataContext.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<List<Despesas>> List(string? descricao)
@@ -45,10 +47,11 @@ namespace OrcamentoFamiliar.API.Persistence.Repository
             return await _dataContext.Despesas.Where(x => x.Data.Year == ano && x.Data.Month == mes).ToListAsync();
         }
 
-        public async Task Update(Despesas entity)
+        public async Task<Despesas> Update(Despesas entity)
         {
             _dataContext.Entry(entity).State = EntityState.Modified;
             await _dataContext.SaveChangesAsync();
+            return entity;
         }
     }
 }

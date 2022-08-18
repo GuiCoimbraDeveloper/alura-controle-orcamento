@@ -10,6 +10,7 @@ namespace OrcamentoFamiliar.API.AutoMapper
         {
             CreateMap<ReceitaRequest, Receitas>();
             CreateMap<DespesaRequest, Despesas>();
+            CreateMap<Despesas, DespesaRequest>();
         }
     }
 }

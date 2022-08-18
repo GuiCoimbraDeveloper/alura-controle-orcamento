@@ -1,12 +1,13 @@
 ﻿using OrcamentoFamiliar.API.Entity.Enum;
+using OrcamentoFamiliar.API.Entity.Validators;
 
 namespace OrcamentoFamiliar.API.Entity
 {
     public class Despesas : BaseEntity
     {
-        public string? Descricao { get; set; }
-        public decimal Valor { get; set; }
-        public EnumCategoria Categoria { get; set; }
-        public DateTime Data { get; set; }
+        public EnumCategoria Categoria { get; set; } = EnumCategoria.Outras;
+
+
+        public bool Validate() => base.Validate(new DespesasValidator(), this);
     }
 }

@@ -65,35 +65,25 @@ namespace OrcamentoFamiliar.API.Services
 
         public async Task<IOrderedEnumerable<Receitas>> GetList(string? descricao)
         {
-            try
-            {
-                if (string.IsNullOrEmpty(descricao))
-                    descricao = "";
 
-                var result = await _receitaRepository.List(descricao);
-                var aux = result.OrderByDescending(x => x.Data);
+            if (string.IsNullOrEmpty(descricao))
+                descricao = "";
 
-                return aux;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            var result = await _receitaRepository.List(descricao);
+            var aux = result.OrderByDescending(x => x.Data);
+
+            return aux;
+
         }
 
         public async Task<IOrderedEnumerable<Receitas>> GetListMes(int ano, int mes)
         {
-            try
-            {
-                var result = await _receitaRepository.ListMes(ano, mes);
-                var aux = result.OrderByDescending(x => x.Data);
 
-                return aux;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
+            var result = await _receitaRepository.ListMes(ano, mes);
+            var aux = result.OrderByDescending(x => x.Data);
+
+            return aux;
+
         }
 
         public async Task<string> Update(Receitas receita)

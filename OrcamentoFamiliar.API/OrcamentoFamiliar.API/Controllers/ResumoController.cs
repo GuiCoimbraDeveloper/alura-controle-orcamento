@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OrcamentoFamiliar.API.Services.Interfaces;
 
@@ -6,6 +7,7 @@ namespace OrcamentoFamiliar.API.Controllers
 {
     //[Route("api/[controller]")]
     [Route("api/resumo")]
+    [Authorize]
     [ApiController]
     public class ResumoController : ControllerBase
     {

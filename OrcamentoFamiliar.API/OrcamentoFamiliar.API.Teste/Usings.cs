@@ -1,1 +1,10 @@
 global using Xunit;
+global using AutoMapper;
+global using Moq;
+global using FluentAssertions;
+global using OrcamentoFamiliar.API.AutoMapper;
+global using OrcamentoFamiliar.API.Entity;
+global using OrcamentoFamiliar.API.Entity.Response;
+global using OrcamentoFamiliar.API.Services.Interfaces;
+global using OrcamentoFamiliar.API.Entity.Request;
+global using OrcamentoFamiliar.API.Handler;

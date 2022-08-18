@@ -16,5 +16,16 @@ namespace OrcamentoFamiliar.API.AutoMapper
                 x.AddProfile<RequestToModelMappingProfile>();
             });
         }
+        /*
+         public static IMapper GetConfiguration()
+    {
+        var autoMapperConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<Despesas, DespesasDTO>().ReverseMap();
+            cfg.CreateMap<Receitas, ReceitasDTO>().ReverseMap();
+        });
+        return autoMapperConfig.CreateMapper();
+    }
+         */
     }
 }

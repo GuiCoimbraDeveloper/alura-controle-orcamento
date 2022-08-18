@@ -8,5 +8,6 @@ namespace OrcamentoFamiliar.API.Teste
 {
     public class ReceitaTeste
     {
+
     }
 }
