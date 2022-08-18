@@ -1,6 +1,7 @@
 # Ferramentas abordadas no projeto:
 - ASPNET 6 / Testes unitarios / Repository
-- DDD / Solid / ORM / AutoMapper / Fluent Validation
+- DDD / Solid / EF6 / AutoMapper / Fluent Validation
+- Auth Jwt / Authorization / Autentication
 
 # alura-controle-orcamento
 Desafio Alura de Back-End
